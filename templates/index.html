@@ -1,0 +1,231 @@
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>MCQ Generator</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>MCQ Generator</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="text">Enter Text or Upload Files:</label>
+                <input type="file" name="files[]" multiple class="form-control">
+                <textarea name="text" class="form-control mt-2" rows="5" placeholder="Or paste your text here..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="num_questions">Number of MCQs:</label>
+                <input type="number" name="num_questions" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="mode">Output Mode:</label>
+                <select name="mode" class="form-control">
+                    <option value="quiz">Quiz</option>
+                    <option value="pdf">PDF</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate</button>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --background-color: #f4f5fd;
+            --text-color: #333;
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--background-color) 0%, #e6e9f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container h1 i {
+            margin-right: 15px;
+            color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        textarea, 
+        input[type="file"], 
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        textarea:focus, 
+        input[type="file"]:focus, 
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(78, 84, 200, 0.1);
+        }
+
+        input[type="file"] {
+            padding: 10px 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .submit-btn i {
+            margin-left: 10px;
+        }
+
+        .file-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 0 10px;
+            }
+
+            .container h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <i class="fas fa-graduation-cap"></i>
+            MCQ Generator
+        </h1>
+        
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="text">
+                    <i class="fas fa-pencil-alt"></i> Enter Passage
+                </label>
+                <textarea name="text" id="text" placeholder="Paste your text here..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="file">
+                    <i class="fas fa-file-upload"></i> Or Upload a PDF
+                </label>
+                <input type="file" name="file" id="file" accept=".pdf">
+                <p class="file-info">Maximum file size: 10MB. Only PDF supported.</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="num_questions">
+                    <i class="fas fa-list-ol"></i> Number of Questions
+                </label>
+                <input type="number" name="num_questions" id="num_questions" min="1" max="10" required placeholder="Enter number of questions (1-10)">
+            </div>
+
+            <div class="form-group">
+                <label for="mode">
+                    <i class="fas fa-cog"></i> Select Mode
+                </label>
+                <select name="mode" id="mode">
+                    <option value="pdf">Only MCQs (Download PDF)</option>
+                    <option value="quiz">Quiz Mode</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Generate <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</body>
+</html>

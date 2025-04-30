@@ -1,0 +1,984 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz</h1>
+        <form action="/quiz" method="POST">
+            {% for i, (question, choices, _) in enumerate(mcqs) %}
+                <div class="question">
+                    <p><strong>Q{{ i+1 }}:</strong> {{ question }}</p>
+                    {% for j, choice in enumerate(choices) %}
+                        <label>
+                            <input type="radio" name="answer" value="{{ choice }}">
+                            {{ choice }}
+                        </label><br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Quiz</h1>
+    <form method="POST">
+        {% for i, mcq in enumerate(mcqs) %}
+            <p><strong>Q{{ i + 1 }}:</strong> {{ mcq[0] }}</p>
+            {% for j, option in enumerate(mcq[1]) %}
+                <input type="radio" name="answer_{{ i }}" value="{{ option }}" required>
+                {{ option }}<br>
+            {% endfor %}
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Quiz</h1>
+    <form method="POST">
+        {% for index, mcq in mcqs %}
+            <p><strong>Q{{ index + 1 }}:</strong> {{ mcq[0] }}</p>
+            {% for option in mcq[1] %}
+                <input type="radio" name="answer_{{ index }}" value="{{ option }}" required> {{ option }}<br>
+            {% endfor %}
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->
+
+<!-- <form method="POST" action="{{ url_for('quiz') }}">
+    {% for index, mcq in mcqs %}
+        <p><strong>Q{{ loop.index }}:</strong> {{ mcq[0] }}</p>
+        {% for option in mcq[1] %}
+            <input type="radio" name="answer_{{ loop.index0 }}" value="{{ option }}" required> {{ option }}<br>
+        {% endfor %}
+    {% endfor %}
+    <button type="submit">Submit</button>
+</form> -->
+
+<!-- <form method="POST" action="{{ url_for('quiz') }}">
+    {% for index, (question, choices, correct_answer) in enumerate(mcqs) %}
+        <p><strong>Q{{ index + 1 }}:</strong> {{ question }}</p>
+        {% for option in choices %}
+            <input type="radio" name="answer_{{ index }}" value="{{ option }}" required> {{ option }}<br>
+        {% endfor %}
+    {% endfor %}
+    <button type="submit">Submit</button>
+</form> -->
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <form method="post">
+        {% for index in range(mcqs|length) %}
+            <div>
+                <p><strong>Q{{ index + 1 }}:</strong> {{ mcqs[index].question }}</p>
+                {% for option_index in range(mcqs[index].options|length) %}
+                    <label>
+                        <input type="radio" name="answer[{{ index }}]" value="{{ chr(65 + option_index) }}">
+                        {{ chr(65 + option_index) }}. {{ mcqs[index].options[option_index] }}
+                    </label><br>
+                {% endfor %}
+            </div>
+            <br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Quiz</h1>
+        <form method="POST" action="/quiz">
+            {% for i, mcq in enumerate(mcqs) %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>Q{{ i + 1 }}:</strong> {{ mcq["question"] }}
+                </div>
+                <div class="card-body">
+                    {% for j, option in enumerate(mcq["options"]) %}
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="answer"
+                            id="q{{ i }}_option{{ j }}"
+                            value="{{ chr(65 + j) }}" 
+                        >
+                        <label class="form-check-label" for="q{{ i }}_option{{ j }}">
+                            {{ chr(65 + j) }}. {{ option }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">MCQ Quiz</h1>
+        <form method="POST" action="/quiz">
+            {% for index, mcq in enumerate(mcqs) %}
+            <div class="mb-4">
+                <p><strong>Q{{ index + 1 }}:</strong> {{ mcq.question }}</p>
+                {% for option in mcq.options %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="answer_{{ index }}" value="{{ option }}" id="option_{{ index }}">
+                    <label class="form-check-label" for="option_{{ index }}">{{ option }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Submit Quiz</button>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script>
+        let timer = 30; // Time limit for each question (in seconds)
+        const countdown = document.getElementById('timer');
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    alert("Time's up for this question!");
+                    document.getElementById('next-button').click(); // Automatically move to the next question
+                } else {
+                    timer -= 1;
+                    countdown.innerText = `Time Left: ${timer} seconds`;
+                }
+            }, 1000);
+        }
+
+        window.onload = startTimer;
+    </script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Quiz</h1>
+        <div id="timer" class="text-danger mb-3">Time Left: 30 seconds</div>
+        <form method="POST" action="/quiz">
+            <h2>Question {{ current_question }} of {{ total_questions }}</h2>
+            <p>{{ question[0] }}</p>
+            {% for i, choice in enumerate(question[1]) %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="answer" value="{{ choice }}" id="choice_{{ i }}">
+                <label class="form-check-label" for="choice_{{ i }}">{{ choice }}</label>
+            </div>
+            {% endfor %}
+            <div class="mt-3">
+                <button type="submit" name="previous" class="btn btn-secondary" id="previous-button">Previous</button>
+                <button type="submit" name="next" class="btn btn-primary" id="next-button">Next</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <script>
+        let timer = 30; // 30 seconds for each question
+        const countdown = setInterval(() => {
+            const timerElement = document.getElementById("timer");
+            if (timer <= 0) {
+                clearInterval(countdown);
+                document.getElementById("next-button").click(); // Auto-submit when time runs out
+            } else {
+                timerElement.textContent = `Time Left: ${timer--} seconds`;
+            }
+        }, 1000);
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Question {{ current_question }} of {{ total_questions }}</h2>
+        <p id="timer" class="text-danger">Time Left: 30 seconds</p>
+        <form method="POST">
+            <p><strong>{{ question["question"] }}</strong></p>
+            {% for choice in question["choices"] %}
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="radio"
+                        name="answer"
+                        id="choice{{ loop.index }}"
+                        value="{{ choice }}"
+                        {% if user_answer == choice %}checked{% endif %}
+                    >
+                    <label class="form-check-label" for="choice{{ loop.index }}">{{ choice }}</label>
+                </div>
+            {% endfor %}
+            <br>
+            <button type="submit" name="previous" class="btn btn-secondary" {% if current_question == 1 %}disabled{% endif %}>Previous</button>
+            <button type="submit" name="next" id="next-button" class="btn btn-primary" {% if current_question == total_questions %}disabled{% endif %}>Next</button>
+            <button type="submit" name="submit" class="btn btn-success" {% if current_question != total_questions %}disabled{% endif %}>Submit</button>
+        </form>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --accent-color: #818cf8;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-container {
+            max-width: 800px;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .progress-container {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            transition: width 0.5s ease;
+        }
+        
+        .timer-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .timer-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-color) 0%, #e2e8f0 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .timer-circle::before {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+        }
+        
+        .timer-text {
+            position: relative;
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        
+        .choice-container {
+            margin-bottom: 12px;
+        }
+        
+        .choice-label {
+            display: block;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .choice-label:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-2px);
+        }
+        
+        .choice-input {
+            display: none;
+        }
+        
+        .choice-input:checked + .choice-label {
+            border-color: var(--primary-color);
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .choice-input:checked + .choice-label::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background-color: var(--primary-color);
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn-quiz {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-previous {
+            background-color: #e2e8f0;
+            color: var(--text-color);
+        }
+        
+        .btn-previous:hover:not(:disabled) {
+            background-color: #cbd5e1;
+        }
+        
+        .btn-next {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-next:hover:not(:disabled) {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-submit {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-submit:hover:not(:disabled) {
+            background-color: #059669;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .warning-time {
+            color: var(--danger-color);
+        }
+        
+        .question-counter {
+            font-size: 0.9rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .choice-text {
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .quiz-container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 1.1rem;
+            }
+            
+            .timer-circle {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .timer-circle::before {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .timer-text {
+                font-size: 1rem;
+            }
+            
+            .button-container {
+                flex-wrap: wrap;
+            }
+            
+            .btn-quiz {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+        <div class="quiz-container animate__animated animate__fadeIn">
+            <div class="header-wrapper">
+                <div class="quiz-header">
+                    <h2 class="mb-0">Interactive Quiz</h2>
+                    <div id="timer-container" class="timer-container">
+                        <div class="timer-circle">
+                            <span id="timer-text" class="timer-text">30</span>
+                        </div>
+                        <span id="timer-label">seconds</span>
+                    </div>
+                </div>
+                <p class="question-counter mb-2">Question {{ current_question }} of {{ total_questions }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: calc({{ current_question }} / {{ total_questions }} * 100%)"></div>
+                </div>
+            </div>
+            
+            <div class="question-content animate__animated animate__fadeIn">
+                <p class="question-text">{{ question }}</p>
+                
+                <form method="POST" id="quiz-form">
+                    <div class="choices-container">
+                        {% for choice in choices %}
+                            <div class="choice-container animate__animated animate__fadeInUp" style="animation-delay: {{ loop.index0 * 0.1 }}s">
+                                <input 
+                                    class="choice-input" 
+                                    type="radio" 
+                                    name="answer" 
+                                    id="choice{{ loop.index0 }}" 
+                                    value="{{ choice }}"
+                                    {% if user_answer == choice %}checked{% endif %}
+                                >
+                                <label class="choice-label" for="choice{{ loop.index0 }}">
+                                    <span class="choice-indicator">{{ ["A", "B", "C", "D", "E"][loop.index0] }}.</span>
+                                    <span class="choice-text">{{ choice }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="button-container">
+                        <button type="submit" name="previous" class="btn btn-quiz btn-previous" {% if current_question == 1 %}disabled{% endif %}>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button type="submit" name="next" id="next-button" class="btn btn-quiz btn-next" {% if current_question == total_questions %}disabled{% endif %}>
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button type="submit" name="submit" class="btn btn-quiz btn-submit" {% if current_question != total_questions %}disabled{% endif %}>
+                            <i class="fas fa-check"></i> Submit Quiz
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Timer functionality
+        let timer = 30; // 30 seconds for each question
+        const timerText = document.getElementById("timer-text");
+        const timerLabel = document.getElementById("timer-label");
+        const timerCircle = document.querySelector(".timer-circle");
+        
+        const countdown = setInterval(() => {
+            // Update timer text
+            timerText.textContent = timer;
+            
+            // Update timer circle progress
+            const progressPercentage = (timer / 30) * 100;
+            timerCircle.style.background = `conic-gradient(
+                var(--primary-color) ${progressPercentage}%, 
+                #e2e8f0 ${progressPercentage}%
+            )`;
+            
+            // Add warning when time is low
+            if (timer <= 10) {
+                timerText.classList.add("warning-time");
+                timerCircle.classList.add("pulse");
+                timerLabel.classList.add("warning-time");
+            }
+            
+            // Handle timer completion
+            if (timer <= 0) {
+                clearInterval(countdown);
+                document.getElementById("next-button").click();
+            } else {
+                timer--;
+            }
+        }, 1000);
+        
+        // Add click sound to choices
+        const choiceInputs = document.querySelectorAll('.choice-input');
+        choiceInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                // You could add a subtle sound here if desired
+                // For now, add a visual indication instead
+                const allLabels = document.querySelectorAll('.choice-label');
+                allLabels.forEach(label => {
+                    label.classList.remove('animate__pulse');
+                });
+                
+                input.nextElementSibling.classList.add('animate__animated', 'animate__pulse');
+            });
+        });
+        
+// Prevent accidental page navigation but allow form submissions
+let formSubmitted = false;
+
+// Mark form as submitted when any button is clicked
+document.querySelectorAll('button[type="submit"]').forEach(button => {
+    button.addEventListener('click', function() {
+        formSubmitted = true;
+    });
+});
+
+// Only show warning if navigating away without using form buttons
+window.addEventListener('beforeunload', function(e) {
+    if (!formSubmitted) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+    // Reset after each navigation attempt
+    formSubmitted = false;
+});
+    </script>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz in Progress</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .quiz-container {
+            width: 100%;
+            max-width: 700px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .quiz-header h1 {
+            color: #5661DA;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 25px 0;
+        }
+        
+        .timer-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #5661DA;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        
+        .timer-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #5661DA;
+        }
+        
+        .progress-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .progress-text {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #5661DA;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .question-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background-color: #5661DA;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 20px;
+            margin-top: 15px;
+        }
+        
+        .question-container {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .options-container {
+            margin-top: 20px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            border-color: #5661DA;
+            background-color: #f8f9ff;
+        }
+        
+        .option.selected {
+            border-color: #5661DA;
+            background-color: #f0f2ff;
+        }
+        
+        .option-letter {
+            width: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .quiz-progress {
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn-previous {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        .btn-previous:hover {
+            background-color: #e6e8ec;
+        }
+        
+        .btn-next {
+            background-color: #5661DA;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background-color: #4852c9;
+        }
+        
+        .btn i {
+            margin-right: 6px;
+            margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Quiz in Progress</h1>
+            <div class="timer">
+                <div class="timer-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="timer-text" id="timer">09:48</div>
+            </div>
+        </div>
+        
+        <div class="progress-section">
+            <span class="progress-text">Progress</span>
+            <span class="progress-text">Question 2 of 5</span>
+        </div>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar" style="width: 40%;"></div>
+        </div>
+        
+        <div class="question-container">
+            <div class="question-number">2</div>
+            <div>
+                <p class="question-text">To achieve your dreams, you need to work hard and be determined and focused on ___ path</p>
+                
+                <div class="options-container">
+                    <div class="option" onclick="selectOption(this, 'A')">
+                        <div class="option-letter">A</div>
+                        <div>focusing</div>
+                    </div>
+                    
+                    <div class="option" onclick="selectOption(this, 'B')">
+                        <div class="option-letter">B</div>
+                        <div>focused</div>
+                    </div>
+                    
+                    <div class="option" onclick="selectOption(this, 'C')">
+                        <div class="option-letter">C</div>
+                        <div>your</div>
+                    </div>
+                    
+                    <div class="option" onclick="selectOption(this, 'D')">
+                        <div class="option-letter">D</div>
+                        <div>committed</div>
+                    </div>
+                    
+                    <div class="option" onclick="selectOption(this, 'E')">
+                        <div class="option-letter">E</div>
+                        <div>centered</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <button class="btn btn-previous">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            
+            <div class="quiz-progress">2 / 5</div>
+            
+            <button class="btn btn-next">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let minutes = 9;
+        let seconds = 48;
+        
+        const countdown = setInterval(() => {
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    clearInterval(countdown);
+                    alert("Time's up!");
+                }
+            }
+            
+            document.getElementById("timer").textContent = 
+                ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+        }, 1000);
+        
+        // Option selection
+        function selectOption(element, option) {
+            // Clear previous selection
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Apply selection
+            element.classList.add('selected');
+        }
+    </script>
+</body>
+</html> -->
